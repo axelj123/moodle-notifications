@@ -21,7 +21,8 @@ public class EventController {
     @PostMapping
     public ResponseEntity<Void> receiveEvent(@RequestBody Map<String, Object> eventData){
         System.out.println("Evento recibido desde moodle: " +eventData);
-        messagingTemplate.convertAndSend("/topic/notifications", eventData);
+        String userDestination = "/topic/notifications/" + eventData.get("userid");
+        messagingTemplate.convertAndSend(userDestination,eventData);
         return ResponseEntity.ok().build();
     }
 }
